@@ -9,9 +9,9 @@ import com.baeldung.web.resource.RootResource;
 @RestController
 public class RootController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public RootResource root() {
-        return new RootResource();
-    }
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public RootResource root() {
+		return new RootResource();
+	}
 
 }

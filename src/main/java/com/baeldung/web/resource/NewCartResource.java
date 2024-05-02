@@ -16,38 +16,38 @@ import jersey.repackaged.com.google.common.collect.Lists;
 
 public class NewCartResource extends ResourceSupport {
 
-    private final Resources<Book> books;
+	private final Resources<Book> books;
 
-    private boolean purchased;
+	private boolean purchased;
 
-    public NewCartResource(final Iterable<Book> books, final boolean purchased) {
-        super();
+	public NewCartResource(final Iterable<Book> books, final boolean purchased) {
+		super();
 
-        this.books = new Resources<Book>(books, Lists.newArrayList());
-        this.purchased = purchased;
-        this.add(linkTo(methodOn(NewCartController.class).seeYourCart()).withSelfRel());
-    }
+		this.books = new Resources<Book>(books, Lists.newArrayList());
+		this.purchased = purchased;
+		this.add(linkTo(methodOn(NewCartController.class).seeYourCart()).withSelfRel());
+	}
 
-    public NewCartResource(final Iterable<Book> books, final List<Link> links, final boolean purchased) {
-        super();
+	public NewCartResource(final Iterable<Book> books, final List<Link> links, final boolean purchased) {
+		super();
 
-        this.books = new Resources<Book>(books, links);
-        this.purchased = purchased;
-        this.add(linkTo(methodOn(NewCartController.class).seeYourCart()).withSelfRel());
-    }
+		this.books = new Resources<Book>(books, links);
+		this.purchased = purchased;
+		this.add(linkTo(methodOn(NewCartController.class).seeYourCart()).withSelfRel());
+	}
 
-    //
+	//
 
-    public Resources<Book> getBooks() {
-        return books;
-    }
+	public Resources<Book> getBooks() {
+		return books;
+	}
 
-    public boolean isPurchased() {
-        return purchased;
-    }
+	public boolean isPurchased() {
+		return purchased;
+	}
 
-    public void setPurchased(boolean purchased) {
-        this.purchased = purchased;
-    }
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
 
 }
