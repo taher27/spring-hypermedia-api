@@ -24,41 +24,41 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RequestMapping(value = "/books")
 public class BookController {
 
-    @Autowired
-    private BookRepository repo;
+	@Autowired
+	private BookRepository repo;
 
-    // read
+	// read
 
-    @RequestMapping("/{isbn}")
-    public BookResource findByIsbn(@PathVariable final String isbn) {
-        final Book book = Checks.checkEntityExists(repo.findByIsbn(isbn), "No book found for isbn = " + isbn);
+	@RequestMapping("/{isbn}")
+	public BookResource findByIsbn(@PathVariable final String isbn) {
+		final Book book = Checks.checkEntityExists(repo.findByIsbn(isbn), "No book found for isbn = " + isbn);
 
-        final BookResource bookResource = new BookResource(book);
-        bookResource.add(linkTo(methodOn(CartController.class).addBookToCart(bookResource)).withRel("add-to-cart"));
+		final BookResource bookResource = new BookResource(book);
+		bookResource.add(linkTo(methodOn(CartController.class).addBookToCart(bookResource)).withRel("add-to-cart"));
 
-        return bookResource;
-    }
+		return bookResource;
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<BookResource> findAll() {
-        final List<Book> books = (List<Book>) repo.findAll();
-        final List<BookResource> bookResources = books.stream().map(BookResource::new).collect(Collectors.toList());
-        return bookResources;
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public List<BookResource> findAll() {
+		final List<Book> books = (List<Book>) repo.findAll();
+		final List<BookResource> bookResources = books.stream().map(BookResource::new).collect(Collectors.toList());
+		return bookResources;
+	}
 
-    @JsonView(BookView.Summary.class)
-    @RequestMapping(method = RequestMethod.GET, params="summary")
-    public List<BookResource> findAllSummary() {
-        final List<Book> books = (List<Book>) repo.findAll();
-        final List<BookResource> bookResources = books.stream().map(BookResource::new).collect(Collectors.toList());
-        return bookResources;
-    }
+	@JsonView(BookView.Summary.class)
+	@RequestMapping(method = RequestMethod.GET, params = "summary")
+	public List<BookResource> findAllSummary() {
+		final List<Book> books = (List<Book>) repo.findAll();
+		final List<BookResource> bookResources = books.stream().map(BookResource::new).collect(Collectors.toList());
+		return bookResources;
+	}
 
-    // write
+	// write
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestBody BookResource newBook) {
-        repo.save(newBook.getBook());
-    }
+	@RequestMapping(method = RequestMethod.POST)
+	public void create(@RequestBody BookResource newBook) {
+		repo.save(newBook.getBook());
+	}
 
 }

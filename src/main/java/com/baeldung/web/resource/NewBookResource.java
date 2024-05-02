@@ -15,28 +15,29 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 public class NewBookResource extends ResourceSupport {
 
-    @JsonView(BookView.Summary.class)
-    private final Book book;
+	@JsonView(BookView.Summary.class)
+	private final Book book;
 
-    @JsonCreator
-    public NewBookResource(@NotNull final Book book) {
-        this.book = book;
+	@JsonCreator
+	public NewBookResource(@NotNull final Book book) {
+		this.book = book;
 
-        // this.add(BasicLinkBuilder.linkToCurrentMapping().slash("/books").slash(book.getIsbn()).withSelfRel());
-        // this.add(linkTo(methodOn(BookController.class, book).findByIsbn(book.getIsbn())).withSelfRel());
-        this.add(linkTo(BookController.class).slash(book.getIsbn()).withSelfRel());
-    }
+		// this.add(BasicLinkBuilder.linkToCurrentMapping().slash("/books").slash(book.getIsbn()).withSelfRel());
+		// this.add(linkTo(methodOn(BookController.class,
+		// book).findByIsbn(book.getIsbn())).withSelfRel());
+		this.add(linkTo(BookController.class).slash(book.getIsbn()).withSelfRel());
+	}
 
-    //
+	//
 
-    @JsonFilter("bookFilter")
-    public Book getBook() {
-        return book;
-    }
+	@JsonFilter("bookFilter")
+	public Book getBook() {
+		return book;
+	}
 
-    @Override
-    public String toString() {
-        return "BookResource [book=" + book + ", toString()=" + super.toString() + "]";
-    }
+	@Override
+	public String toString() {
+		return "BookResource [book=" + book + ", toString()=" + super.toString() + "]";
+	}
 
 }

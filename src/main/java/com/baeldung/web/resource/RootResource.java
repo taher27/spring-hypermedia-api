@@ -9,12 +9,12 @@ import com.baeldung.web.controller.CartController;
 
 public class RootResource extends ResourceSupport {
 
-    public RootResource() {
-        this.add(linkTo(BookController.class).withRel("books"));
-        this.add(linkTo(CartController.class).withRel("cart"));
-        // this.add(linkTo(methodOn(BookController.class).findAll()).withRel("books"));
-    }
+	public RootResource() {
+		this.add(linkTo(BookController.class).withRel("books"));
+		this.add(linkTo(CartController.class).withRel("cart"));
+		// this.add(linkTo(methodOn(BookController.class).findAll()).withRel("books"));
+	}
 
-    //
+	//
 
 }

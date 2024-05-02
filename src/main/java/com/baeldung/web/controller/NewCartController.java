@@ -27,67 +27,69 @@ import jersey.repackaged.com.google.common.collect.Lists;
 @RequestMapping(value = "/new/cart")
 public class NewCartController {
 
-    private List<Book> books;
-    private boolean cartPurchased;
+	private List<Book> books;
 
-    @Autowired
-    private BookRepository bookRepo;
+	private boolean cartPurchased;
 
-    // read
+	@Autowired
+	private BookRepository bookRepo;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public NewCartResource seeYourCart() {
-        return new NewCartResource(initializeBooksInCart(), bookLinks(books), cartPurchased);
-    }
+	// read
 
-    // write
+	@RequestMapping(method = RequestMethod.GET)
+	public NewCartResource seeYourCart() {
+		return new NewCartResource(initializeBooksInCart(), bookLinks(books), cartPurchased);
+	}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public NewCartResource addBookToCart(@RequestBody final BookResource book) {
-        final String isbn = book.getBook().getIsbn();
-        final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()), "No Book found for isbn: " + isbn);
+	// write
 
-        initializeBooksInCart().add(bookToAdd);
+	@RequestMapping(method = RequestMethod.POST)
+	public NewCartResource addBookToCart(@RequestBody final BookResource book) {
+		final String isbn = book.getBook().getIsbn();
+		final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()),
+				"No Book found for isbn: " + isbn);
 
-        return new NewCartResource(books, cartPurchased);
-    }
+		initializeBooksInCart().add(bookToAdd);
 
-    @RequestMapping(method = RequestMethod.PATCH)
-    public NewCartResource buy(@RequestBody final CartResource theCart) {
-        NewCartResource cart = new NewCartResource(initializeBooksInCart(), cartPurchased);
+		return new NewCartResource(books, cartPurchased);
+	}
 
-        if (theCart.isPurchased()) {
-            cartPurchased = true;
-            cart.setPurchased(cartPurchased);
-        }
+	@RequestMapping(method = RequestMethod.PATCH)
+	public NewCartResource buy(@RequestBody final CartResource theCart) {
+		NewCartResource cart = new NewCartResource(initializeBooksInCart(), cartPurchased);
 
-        cart.add(new Link("http://localhost:8081/api/receipt/1").withRel("receipt"));
-        return cart;
-    }
+		if (theCart.isPurchased()) {
+			cartPurchased = true;
+			cart.setPurchased(cartPurchased);
+		}
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void clearYourCart() {
-        initializeBooksInCart().clear();
-        this.cartPurchased = false;
-    }
+		cart.add(new Link("http://localhost:8081/api/receipt/1").withRel("receipt"));
+		return cart;
+	}
 
-    //
+	@RequestMapping(method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void clearYourCart() {
+		initializeBooksInCart().clear();
+		this.cartPurchased = false;
+	}
 
-    List<Book> initializeBooksInCart() {
-        if (books == null) {
-            this.books = Lists.newArrayList();
-        }
+	//
 
-        return this.books;
-    }
+	List<Book> initializeBooksInCart() {
+		if (books == null) {
+			this.books = Lists.newArrayList();
+		}
 
-    List<Link> bookLinks(final List<Book> theBooks) {
-        return theBooks.stream().map(this::getLink).collect(Collectors.toList());
-    }
+		return this.books;
+	}
 
-    Link getLink(final Book book) {
-        return linkTo(BookController.class).slash(book.getIsbn()).withSelfRel();
-    }
+	List<Link> bookLinks(final List<Book> theBooks) {
+		return theBooks.stream().map(this::getLink).collect(Collectors.toList());
+	}
+
+	Link getLink(final Book book) {
+		return linkTo(BookController.class).slash(book.getIsbn()).withSelfRel();
+	}
 
 }

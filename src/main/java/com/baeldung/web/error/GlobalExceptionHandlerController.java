@@ -12,16 +12,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    public GlobalExceptionHandlerController() {
-        super();
-    }
+	public GlobalExceptionHandlerController() {
+		super();
+	}
 
-    //
+	//
 
-    @ExceptionHandler({ EntityNotFoundException.class })
-    public ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException ex) {
-        final ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), "test");
-        return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
+	@ExceptionHandler({ EntityNotFoundException.class })
+	public ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException ex) {
+		final ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), "test");
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
 
 }

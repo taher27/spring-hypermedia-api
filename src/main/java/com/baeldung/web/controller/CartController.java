@@ -19,62 +19,64 @@ import com.baeldung.web.resource.NewBookResource;
 @RequestMapping(value = "/cart")
 public class CartController implements InitializingBean {
 
-    private Cart cart;
+	private Cart cart;
 
-    @Autowired
-    private BookRepository bookRepo;
+	@Autowired
+	private BookRepository bookRepo;
 
-    // read
+	// read
 
-    @RequestMapping(method = RequestMethod.GET)
-    public CartResource seeYourCart() {
-        return toResource();
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public CartResource seeYourCart() {
+		return toResource();
+	}
 
-    // write
+	// write
 
-    @RequestMapping(method = RequestMethod.POST)
-    public CartResource addBookToCart(@RequestBody final BookResource book) {
-        final String isbn = book.getBook().getIsbn();
-        final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()), "No Book found for isbn: " + isbn);
+	@RequestMapping(method = RequestMethod.POST)
+	public CartResource addBookToCart(@RequestBody final BookResource book) {
+		final String isbn = book.getBook().getIsbn();
+		final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()),
+				"No Book found for isbn: " + isbn);
 
-        this.cart.add(bookToAdd);
-        return toResource();
-    }
+		this.cart.add(bookToAdd);
+		return toResource();
+	}
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public CartResource addNewBookToCart(@RequestBody final NewBookResource book) {
-        final String isbn = book.getBook().getIsbn();
-        final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()), "No Book found for isbn: " + isbn);
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	public CartResource addNewBookToCart(@RequestBody final NewBookResource book) {
+		final String isbn = book.getBook().getIsbn();
+		final Book bookToAdd = Checks.checkEntityExists(bookRepo.findByIsbn(book.getBook().getIsbn()),
+				"No Book found for isbn: " + isbn);
 
-        this.cart.add(bookToAdd);
-        return toResource();
-    }
+		this.cart.add(bookToAdd);
+		return toResource();
+	}
 
-    @RequestMapping(method = RequestMethod.PATCH)
-    public CartResource buy(@RequestBody final CartResource theCart) {
-        this.cart.setPurchased(theCart.isPurchased());
+	@RequestMapping(method = RequestMethod.PATCH)
+	public CartResource buy(@RequestBody final CartResource theCart) {
+		this.cart.setPurchased(theCart.isPurchased());
 
-        return toResource();
-    }
+		return toResource();
+	}
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public CartResource clearYourCart() {
-        this.cart.getBooks().clear();
-        this.cart.setPurchased(false);
+	@RequestMapping(method = RequestMethod.DELETE)
+	public CartResource clearYourCart() {
+		this.cart.getBooks().clear();
+		this.cart.setPurchased(false);
 
-        return toResource();
-    }
+		return toResource();
+	}
 
-    //
+	//
 
-    private CartResource toResource() {
-        return new CartResource(this.cart.getBooks(), this.cart.isPurchased());
-    }
+	private CartResource toResource() {
+		return new CartResource(this.cart.getBooks(), this.cart.isPurchased());
+	}
 
-    @Override
-    public void afterPropertiesSet() {
-        this.cart = new Cart();
-    }
+	@Override
+	public void afterPropertiesSet() {
+		this.cart = new Cart();
+	}
 
 }

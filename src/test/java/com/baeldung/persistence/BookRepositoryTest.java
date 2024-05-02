@@ -16,22 +16,23 @@ import java.util.UUID;
 @WebAppConfiguration
 public class BookRepositoryTest {
 
-    @Autowired
-    private BookRepository bookRepository;
+	@Autowired
+	private BookRepository bookRepository;
 
-    @Test
-    public void persisting() {
-        Book book1 = new Book();
-        book1.setAuthor("Author1");
-        book1.setTitle("Title1");
-        book1.setIsbn(UUID.randomUUID().toString());
-        bookRepository.save(book1);
+	@Test
+	public void persisting() {
+		Book book1 = new Book();
+		book1.setAuthor("Author1");
+		book1.setTitle("Title1");
+		book1.setIsbn(UUID.randomUUID().toString());
+		bookRepository.save(book1);
 
-        Book book2 = new Book();
-        book2.setAuthor("Author2");
-        book2.setTitle("Title2");
-        book2.setIsbn(UUID.randomUUID().toString());
-        bookRepository.save(book2);
+		Book book2 = new Book();
+		book2.setAuthor("Author2");
+		book2.setTitle("Title2");
+		book2.setIsbn(UUID.randomUUID().toString());
+		bookRepository.save(book2);
 
-    }
+	}
+
 }

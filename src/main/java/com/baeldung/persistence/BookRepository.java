@@ -6,6 +6,6 @@ import com.baeldung.model.Book;
 
 public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Book findByIsbn(final String isbn);
+	Book findByIsbn(final String isbn);
 
 }

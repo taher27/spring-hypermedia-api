@@ -15,51 +15,53 @@ import com.baeldung.web.controller.CartController;
 
 public class CartResource extends ResourceSupport {
 
-    private List<Book> books;
+	private List<Book> books;
 
-    private boolean purchased;
+	private boolean purchased;
 
-    public CartResource() {
-        super();
-    }
+	public CartResource() {
+		super();
+	}
 
-    public CartResource(final List<Book> books, final boolean purchased) {
-        super();
+	public CartResource(final List<Book> books, final boolean purchased) {
+		super();
 
-        this.books = books;
-        this.purchased = purchased;
+		this.books = books;
+		this.purchased = purchased;
 
-        this.add(linkTo(methodOn(CartController.class).seeYourCart()).withSelfRel());
-        if (!purchased && !this.books.isEmpty()) {
-            Link clearLink = null;
-            try {
-                clearLink = linkTo(CartController.class, CartController.class.getMethod("clearYourCart")).withRel("clear");
-            } catch (NoSuchMethodException | SecurityException e) {
-                e.printStackTrace();
-            }
-            this.add(clearLink);
-        }
-        if (purchased) {
-            this.add(linkToCurrentMapping().slash("/receipt").slash(randomAlphanumeric(6)).withRel("receipt"));
-        }
-    }
+		this.add(linkTo(methodOn(CartController.class).seeYourCart()).withSelfRel());
+		if (!purchased && !this.books.isEmpty()) {
+			Link clearLink = null;
+			try {
+				clearLink = linkTo(CartController.class, CartController.class.getMethod("clearYourCart"))
+					.withRel("clear");
+			}
+			catch (NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+			this.add(clearLink);
+		}
+		if (purchased) {
+			this.add(linkToCurrentMapping().slash("/receipt").slash(randomAlphanumeric(6)).withRel("receipt"));
+		}
+	}
 
-    //
+	//
 
-    public void setBooks(final List<Book> books) {
-        this.books = books;
-    }
+	public void setBooks(final List<Book> books) {
+		this.books = books;
+	}
 
-    public List<Book> getBooks() {
-        return books;
-    }
+	public List<Book> getBooks() {
+		return books;
+	}
 
-    public boolean isPurchased() {
-        return purchased;
-    }
+	public boolean isPurchased() {
+		return purchased;
+	}
 
-    public void setPurchased(boolean purchased) {
-        this.purchased = purchased;
-    }
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
 
 }
